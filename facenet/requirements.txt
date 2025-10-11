@@ -7,7 +7,7 @@ mtcnn==1.0.0
 keras==3.11.3
 keras-facenet==0.3.2
 ujson==5.10.0
-jsonpatch @ file:///work/perseverance-python-buildout/croot/jsonpatch_1728399595941/work
+tensorflow==2.20.0
 jsonpointer==2.1
 jsonschema==4.25.1
 jsonschema-specifications==2025.4.1
