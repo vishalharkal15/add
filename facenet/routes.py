@@ -317,3 +317,23 @@ def register_routes(app, db, Attendance, detector, embedder):
             return jsonify({"count": absent_count, "absent_students": list(absent_names)})
         except Exception as e:
             return jsonify({"error": str(e)}), 500
+        
+
+    @app.route("/api/attendance-all", methods=["GET"])
+    def get_all_attendance():
+        records = Attendance.query.all()
+        data = [
+        {
+            "student": r.student,
+            "date": r.date,
+            "intime": r.intime,
+            "outtime": r.outtime,
+        }
+        for r in records
+    ]
+    return jsonify({"records": data})
+
+    
+
+
+        

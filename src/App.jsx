@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import AdminDashboard from "./pages/Dashboard";
 import ProtectedRoute from "./ProtectedRoute";
 
+
 function App() {
   return (
     <Router>

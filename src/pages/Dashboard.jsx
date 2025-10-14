@@ -2,17 +2,19 @@ import TodayStudents from "../components/TodayStudents";
 import TotalStudents from "../components/TotalStudents";
 import WeeklyAttendance from "../components/WeeklyAttendance";
 import TodayAbsent from "../components/AbsentToday";
+import AttendanceCSVExportButton from "../components/AttendanceCSVExportButton";
+
 export default function Dashboard() {
   return (
     <div
       style={{
-        width: "100vw",  // Full viewport width
-        height: "100vh", // Ensure the container takes full height as well
-        margin: "0",     // Remove any margin that might cause offset
-        padding: "0",    // Remove padding if any
+        width: "100vw",
+        height: "100vh",
+        margin: "0",
+        padding: "0",
         fontFamily: "Poppins, Arial, sans-serif",
         color: "#fff",
-        overflowX: "hidden",  // Prevent horizontal scrolling
+        overflowX: "hidden",
       }}
     >
       {/* Dashboard Heading */}
@@ -26,7 +28,7 @@ export default function Dashboard() {
           WebkitTextFillColor: "transparent",
           fontWeight: "700",
           letterSpacing: "1px",
-          paddingTop: "6%"
+          paddingTop: "6%",
         }}
       >
         Admin Dashboard
@@ -40,8 +42,8 @@ export default function Dashboard() {
           alignItems: "stretch",
           gap: "30px",
           marginTop: "40px",
-          flexWrap: "wrap", // ✅ allows wrapping for smaller screens
-          width: "100%", // Ensure it takes full width
+          flexWrap: "wrap",
+          width: "100%",
           transition: "all 0.3s ease",
         }}
       >
@@ -53,6 +55,17 @@ export default function Dashboard() {
       {/* Weekly Attendance Chart */}
       <div style={{ marginTop: "50px" }}>
         <WeeklyAttendance />
+      </div>
+
+      {/* Export Attendance Button Section */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "50px",
+        }}
+      >
+        <AttendanceCSVExportButton />
       </div>
 
       {/* Responsive Media Queries */}
@@ -72,9 +85,6 @@ export default function Dashboard() {
           @media (max-width: 1024px) {
             h2 {
               font-size: 1.8rem !important;
-            }
-            .summary-cards {
-              gap: 20px;
             }
           }
 
