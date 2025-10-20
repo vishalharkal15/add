@@ -24,5 +24,5 @@ if __name__ == "__main__":
     app.run(
     host="0.0.0.0", 
     port=5000, 
-    ssl_context=("./10.68.222.139+2.pem", "./10.68.222.139+2-key.pem")
+    ssl_context=("./{Yout IP}.pem", "./{Yout IP}-key.pem")
 )
