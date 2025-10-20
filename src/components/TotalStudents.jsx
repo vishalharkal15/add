@@ -10,7 +10,7 @@ export default function TotalStudents() {
   useEffect(() => {
     const fetchTotalCount = async () => {
       try {
-        const res = await fetch("https://10.68.222.139:5000/api/total-students");
+        const res = await fetch("https://{Yout IP}:5000/api/total-students");
         const data = await res.json();
         setCount(data.count);
       } catch (err) {
