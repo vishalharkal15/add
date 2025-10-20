@@ -1,16 +1,100 @@
-# React + Vite
+# 🧠 Face Recognition Attendance System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An **AI-powered attendance system** that uses **Face Recognition** for secure and automated student attendance tracking.
+Built with **React.js** (Frontend), **Flask** (Backend), and **FaceNet with MTCNN** (Machine Learning Model) for accurate face detection and recognition.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📋 Features
 
-## React Compiler
+* 👤 **Automated Face Recognition** using MTCNN + FaceNet Embedding.
+* 🧾 **Attendance Logging** with time and student details.
+* 🔐 **Secure Admin Access** via Flask APIs with SSL configuration.
+* 📊 **Dashboard Visualization** showing daily and weekly attendance reports.
+* 🧍‍♂️ **Student Enrollment Module** to register new users via webcam.
+* 🌐 Responsive Web Interface built with React.js — accessible on both desktop and mobile devices for flexible usage.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Component            | Technology             |
+| -------------------- | ---------------------- |
+| **Frontend**         | React.js               |
+| **Backend**          | Flask (Python)         |
+| **Database**         | SQLite                 |
+| **Machine Learning** | OpenCV, FaceNet, MTCNN |
+| **Security**         | SSL Certificates       |
+| **Language**         | JavaScript, Python     |
+
+
+## ⚙️ Installation & Setup
+
+### **1. Clone the Repository**
+
+```bash
+git clone https://github.com/<your-username>/Face-Attendance-System.git
+cd Face-Attendance-System
+```
+
+---
+
+### **2. Install Dependencies**
+
+#### **Frontend**
+
+```bash
+npm install
+cd ..
+```
+
+#### **Backend**
+
+```bash
+cd facenet
+pip install -r requirements.txt
+cd ..
+```
+
+---
+
+### **3. Generate SSL Certificates (You can skip this step if you want only Localhost)**
+
+**Install the Local CA (First time only and needs mkcert installed on your system)**
+
+```bash
+mkcert -install
+```
+
+**Generate Certificate (Enter your wifi ip to host it over that wifi or simply pust localhost)**
+
+```bash
+mkcert {Your IP}
+```
+
+Note :- Make changes into all jsx fiiles, app.py file and vite.config.js and use the same ip everywhere
+
+---
+
+### **4. Run the Application**
+
+> Open **two terminals** from the project root:
+
+**Terminal 1 – Frontend**
+
+```bash
+npm run dev
+```
+
+**Terminal 2 – Backend**
+
+```bash
+python facenet/app.py
+```
+
+* React runs on: `http://localhost:5173`
+* Flask API runs on: `http://localhost:5000`
+
+Note:- Put your ip instead of localhost if you want to host it
+
+---
