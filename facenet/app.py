@@ -23,11 +23,16 @@ db, Attendance, Student = init_db(app)
 detector = MTCNN()
 embedder = FaceNet()
 
-# Register routes
+# Health check endpoint for monitoring (MUST be before catch-all route)
+@app.route('/health')
+def health_check():
+    return {'status': 'healthy', 'service': 'attendance-system'}, 200
+
+# Register API routes
 from routes import register_routes
 register_routes(app, db, Attendance, detector, embedder)
 
-# Serve React App (for production)
+# Serve React App (for production) - MUST be last
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
@@ -40,11 +45,6 @@ def serve(path):
             return send_from_directory(app.static_folder, 'index.html')
         else:
             return {"message": "Frontend not built. Run 'npm run build' first."}, 404
-
-# Health check endpoint for monitoring
-@app.route('/health')
-def health_check():
-    return {'status': 'healthy', 'service': 'attendance-system'}, 200
 
 # Security headers
 @app.after_request
