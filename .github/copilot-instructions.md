@@ -112,9 +112,14 @@ RUN useradd -m -u 1000 appuser && \
     mkdir -p /app/backend/data/database && \
     chown -R appuser:appuser /app
 
-# Install runtime dependencies only
+# Install runtime dependencies (including OpenCV/cv2 requirements)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -324,6 +329,36 @@ docker-compose down
 - [ ] Review Gunicorn worker count based on CPU cores
 - [ ] Add `.dockerignore` to reduce image size
 - [ ] Test with `docker-compose` before Railway deployment
+
+#### Common Deployment Issues & Solutions
+
+**Issue 1: ImportError: libGL.so.1 cannot open shared object file**
+- **Cause**: OpenCV (cv2) requires system graphics libraries not included in python:slim image
+- **Solution**: Add these packages to Dockerfile Stage 3 runtime dependencies:
+  ```dockerfile
+  RUN apt-get update && apt-get install -y --no-install-recommends \
+      libgomp1 \
+      libgl1 \
+      libglib2.0-0 \
+      libsm6 \
+      libxext6 \
+      libxrender1 \
+      && rm -rf /var/lib/apt/lists/*
+  ```
+- **Why**: keras_facenet imports cv2, which requires OpenGL/X11 libraries even in headless mode
+
+**Issue 2: Health Check Failing / Worker Boot Timeout**
+- **Cause**: ML models (MTCNN + FaceNet) take 40-60s to initialize
+- **Solution**: Increase HEALTHCHECK `start-period` to 60s in Dockerfile
+- **Alternative**: Use `/health` endpoint instead of ML-dependent routes for health checks
+
+**Issue 3: Error: can't chdir to 'backend'**
+- **Cause**: railway.toml `startCommand` overrides Dockerfile CMD with wrong directory
+- **Solution**: Remove `startCommand` from railway.toml or ensure it matches actual directory (`facenet` not `backend`)
+
+**Issue 4: Static Files Not Serving (404 on React Routes)**
+- **Cause**: Flask route ordering - catch-all route registered before specific routes
+- **Solution**: Ensure `/health` and API routes registered BEFORE the catch-all `/<path:path>` route in app.py
 
 ## Key Patterns & Conventions
 
