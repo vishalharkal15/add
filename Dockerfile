@@ -53,9 +53,14 @@ RUN useradd -m -u 1000 appuser && \
     mkdir -p /app/facenet/data/database && \
     chown -R appuser:appuser /app
 
-# Install runtime dependencies only
+# Install runtime dependencies (including OpenCV/cv2 requirements)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
+    libgl1 \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
