@@ -360,6 +360,24 @@ docker-compose down
 - **Cause**: Flask route ordering - catch-all route registered before specific routes
 - **Solution**: Ensure `/health` and API routes registered BEFORE the catch-all `/<path:path>` route in app.py
 
+**Issue 5: Worker SIGKILL / Out of Memory (OOM)**
+- **Cause**: Each Gunicorn worker loads full ML models (~500MB), 4 workers = 2GB+ memory
+- **Error**: `[ERROR] Worker (pid:XXXX) was sent SIGKILL! Perhaps out of memory?`
+- **Solution**: Reduce workers and increase threads in Dockerfile CMD:
+  ```dockerfile
+  CMD ["gunicorn", \
+      "--workers", "2", \
+      "--threads", "4", \
+      "--worker-class", "gthread", \
+      ...
+  ```
+- **Environment Variables**: Add memory optimization:
+  ```dockerfile
+  ENV TF_CPP_MIN_LOG_LEVEL=2 \
+      OMP_NUM_THREADS=2
+  ```
+- **Why**: Railway free tier has limited memory; fewer workers with more threads reduces memory while maintaining concurrency
+
 ## Key Patterns & Conventions
 
 ### Backend Architecture (`facenet/` or `backend/`)
