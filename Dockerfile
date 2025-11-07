@@ -82,7 +82,9 @@ USER appuser
 ENV PORT=8080 \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    FLASK_ENV=production
+    FLASK_ENV=production \
+    TF_CPP_MIN_LOG_LEVEL=2 \
+    OMP_NUM_THREADS=2
 
 # Health check using urllib (built-in, no extra dependencies)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
@@ -92,11 +94,12 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
 EXPOSE 8080
 
 # Run with Gunicorn (production WSGI server)
+# Reduced workers to 2 to avoid OOM on Railway (each worker loads ML models ~500MB)
 CMD ["gunicorn", \
     "--chdir", "facenet", \
     "--bind", "0.0.0.0:8080", \
-    "--workers", "4", \
-    "--threads", "2", \
+    "--workers", "2", \
+    "--threads", "4", \
     "--worker-class", "gthread", \
     "--worker-tmp-dir", "/dev/shm", \
     "--access-logfile", "-", \
